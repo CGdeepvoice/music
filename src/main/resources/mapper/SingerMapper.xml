@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.SingerMapper">
+    <insert id="insert" parameterType="Singer">
+        insert into singer
+        (name, sex, birth, introduction, location, pic)
+        values(#{name}, #{sex}, #{birth}, #{introduction}, #{location}, #{pic})
+    </insert>
+
+    <insert id="insertSelective" parameterType="Singer">
+        insert into singer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="name != null" >
+                name,
+            </if>
+            <if test="sex != null" >
+                sex,
+            </if>
+            <if test="pic != null" >
+                pic,
+            </if>
+            <if test="birth != null" >
+                birth,
+            </if>
+            <if test="location != null" >
+                location,
+            </if>
+            <if test="introduction != null" >
+                introduction,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null" >
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null" >
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null" >
+                #{sex,jdbcType=TINYINT},
+            </if>
+            <if test="pic != null" >
+                #{pic,jdbcType=VARCHAR},
+            </if>
+            <if test="birth != null" >
+                #{birth,jdbcType=TIMESTAMP},
+            </if>
+            <if test="location != null" >
+                #{location,jdbcType=VARCHAR},
+            </if>
+            <if test="introduction != null" >
+                #{introduction,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="Singer">
+        select *
+        from singer where id = #{id}
+    </select>
+
+    <update id="updateByPrimaryKey" parameterType="Singer">
+        update singer
+        set name = #{name},
+        sex = #{sex},
+        pic = #{pic},
+        birth = #{birth},
+        location = #{location},
+        introduction = #{introduction}
+        where id = #{id}
+    </update>
+
+    <update id="updateByPrimaryMsg" parameterType="Singer">
+        update singer
+        <set >
+            <if test="name != null" >
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null" >
+                sex = #{sex,jdbcType=TINYINT},
+            </if>
+            <if test="pic != null" >
+                pic = #{pic,jdbcType=VARCHAR},
+            </if>
+            <if test="birth != null" >
+                birth = #{birth,jdbcType=TIMESTAMP},
+            </if>
+            <if test="location != null" >
+                location = #{location,jdbcType=VARCHAR},
+            </if>
+            <if test="introduction != null" >
+                introduction = #{introduction,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateSingerPic" parameterType="Singer">
+        update singer
+        <set >
+            <if test="pic != null" >
+                pic = #{pic,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <delete id="deleteSinger" parameterType="java.lang.Integer">
+        delete from singer
+        where id = #{id}
+    </delete>
+
+    <select id="allSinger" resultType="Singer">
+        select * from singer;
+    </select>
+
+    <select id="singerOfName" resultType="Singer">
+        select *
+        from singer
+        where name like #{name, jdbcType=VARCHAR}
+    </select>
+
+    <select id="singerOfSex" resultType="Singer">
+        select * from singer where sex=#{sex}
+    </select>
+</mapper>
