@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.SongListMapper">
+    <insert id="insert" parameterType="SongList">
+        insert into song_list (title, introduction, pic, style)
+        values (#{title}, #{introduction}, #{pic}, #{style})
+    </insert>
+
+    <insert id="insertSelective" parameterType="SongList">
+        insert into song_list
+    </insert>
+</mapper>
