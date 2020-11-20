@@ -8,5 +8,102 @@
 
     <insert id="insertSelective" parameterType="SongList">
         insert into song_list
+        <trim prefix="(" suffixOverrides="," suffix=")">
+            <if test="title != null">
+                title,
+            </if>
+            <if test="introduction!=null">
+                introduction,
+            </if>
+            <if test="pic != null">
+                pic,
+            </if>
+            <if test="style!= null">
+                style,
+            </if>
+        </trim>
+        <trim suffix=")" suffixOverrides="," prefix="values (">
+            <if test="title != null">
+                #{title},
+            </if>
+            <if test="introduction!=null">
+                #{introduction},
+            </if>
+            <if test="pic != null">
+                #{pic},
+            </if>
+            <if test="style!= null">
+                #{style},
+            </if>
+        </trim>
     </insert>
+
+    <update id="updateByPrimaryKey" parameterType="SongList">
+        update song_list set title = #{title}, introduction = #{introduction}, pic =#{pic}, style = #{style}
+        where id = #{id}
+    </update>
+
+    <update id="updateSongListMsg" parameterType="SongList">
+        update song_list
+        <set>
+            <if test="title != null">
+                title = #{title},
+            </if>
+            <if test="introduction!=null">
+                introduction = #{introduction},
+            </if>
+            <if test="pic != null">
+                pic = #{pic},
+            </if>
+            <if test="style != null">
+                style = #{style},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <update id="updateSongListImg" parameterType="SongList">
+        update song_list
+        <set >
+            <if test="pic != null" >
+                pic = #{pic},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="SongList">
+        update song_list
+        set title = #{title,jdbcType=VARCHAR},
+        pic = #{pic,jdbcType=VARCHAR},
+        style = #{style,jdbcType=VARCHAR},
+        introduction = #{introduction,jdbcType=LONGVARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <delete id="deleteSongList" parameterType="java.lang.Integer">
+        delete from song_list where id = #{id}
+    </delete>
+
+    <select id="selectByPrimaryKey" resultType="SongList" parameterType="java.lang.Integer">
+        select * from song_list where id = #{id}
+    </select>
+
+    <select id="allSongList" resultType="SongList">
+        select * from song_list
+    </select>
+
+    <select id="likeTitle" resultType="SongList">
+        select *
+        from song_list
+        where title like #{title,jdbcType=VARCHAR}
+    </select>
+
+    <select id="likeStyle" resultType="SongList">
+        select * from song_list where style like #{style}
+    </select>
+
+    <select id="songListOfTitle" resultType="SongList">
+        select * from song_list where title = #{title}
+    </select>
 </mapper>

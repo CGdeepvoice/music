@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.CollectMapper">
+    <insert id="insert" parameterType="Collect">
+        insert into collect (user_id, type, song_id, song_list_id, create_time )
+        values (#{user.id}, #{type},#{song.id}, #{songList.id}, #{createTime} )
+    </insert>
+
+    <insert id="insertSelective" parameterType="Collect">
+        insert into collect
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="user != null" >
+                user_id,
+            </if>
+            <if test="type != null" >
+                type,
+            </if>
+            <if test="song != null" >
+                song_id,
+            </if>
+            <if test="songList != null" >
+                song_list_id,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="user != null" >
+                #{user.id},
+            </if>
+            <if test="type != null" >
+                #{type},
+            </if>
+            <if test="song != null" >
+                #{song.id},
+            </if>
+            <if test="songList != null" >
+                #{songList.id},
+            </if>
+            <if test="createTime != null" >
+                #{createTime},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimary" parameterType="Collect">
+        update collect
+        set user_id = #{user.id},
+        type = #{type},
+        song_id = #{song.id},
+        song_list_id = #{songList.id},
+        create_time = #{createTime}
+        where id = #{id}
+    </update>
+
+    <update id="updateCollectMsg" parameterType="Collect">
+        update collect
+        <set >
+            <if test="user != null" >
+                user_id = #{user.id,jdbcType=INTEGER},
+            </if>
+            <if test="type != null" >
+                type = #{type,jdbcType=TINYINT},
+            </if>
+            <if test="song != null" >
+                song_id = #{song.id,jdbcType=INTEGER},
+            </if>
+            <if test="songList != null" >
+                song_list_id = #{songList.id,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="existSongId" resultType="java.lang.Integer">
+        select count(*) from collect where user_id = #{userId} and song_id = #{songId};
+    </select>
+
+    <delete id="deleteCollect">
+        delete from collect where id = #{id}
+    </delete>
+
+    <resultMap id="BaseResultMap" type="Collect">
+        <id column="id" property="id"/>
+        <result column="type" property="type"/>
+        <result column="create_time" property="createTime"/>
+        <association property="user" javaType="User">
+            <id column="user_id" property="id"/>
+        </association>
+        <association property="song" javaType="Song">
+            <id column="song_id" property="id"/>
+        </association>
+        <association property="songList" javaType="SongList">
+            <id column="song_list_id" property="id"/>
+        </association>
+    </resultMap>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+        select * from collect where id = #{id}
+    </select>
+
+    <select id="allCollect" resultMap="BaseResultMap">
+        select * from collect
+    </select>
+
+    <select id="collectOfUser" resultMap="BaseResultMap">
+        select * from collect where user_id = #{userId}
+    </select>
+</mapper>
