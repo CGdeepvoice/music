@@ -2,11 +2,129 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.demo.dao.CommentMapper">
     <insert id="insert" parameterType="Comment">
-        insert into comment (user_id, song_id,
-        song_list_id, content, create_time,
-        type, up)
-        values (#{user.id}, #{song.id}, #{songList.id}, #{content}, #{createTime}, #{type}, #{up})
+        insert into comment (user_id, song_id, song_list_id, content, create_time, type, up)
+        values (#{user.id}, #{song.id}, #{songList.id}, #{context}, #{createTime}, #{type}, #{up})
     </insert>
 
+    <insert id="insertSelective" parameterType="Comment">
+        insert into comment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="user!=null">
+                user_id,
+            </if>
+            <if test="song!=null">
+                song_id,
+            </if>
+            <if test="songList!=null">
+                song_list_id,
+            </if>
+            <if test="context!=null">
+                content,
+            </if>
+            <if test="createTime!=null">
+                create_time,
+            </if>
+            <if test="type!=null">
+                type,
+            </if>
+            <if test="up!=null">
+                up,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="user!=null">
+                #{user.id},
+            </if>
+            <if test="song!=null">
+                #{song.id},
+            </if>
+            <if test="songList!=null">
+                #{songList.id},
+            </if>
+            <if test="context!=null">
+                #{context},
+            </if>
+            <if test="createTime!=null">
+                #{createTime},
+            </if>
+            <if test="type!=null">
+                #{type},
+            </if>
+            <if test="up!=null">
+                #{up}
+            </if>
+        </trim>
+    </insert>
 
+    <update id="updateByPrimaryKey" parameterType="Comment">
+        update comment
+        set user_id = #{user.id}, song_id = #{song.id}, song_list_id = #{songList.id},
+        content=#{context}, create_time=#{createTime}, type=#{type}, up=#{up}
+        where id = #{id}
+    </update>
+
+    <update id="updateCommentMsg" parameterType="Comment">
+        update comment
+        <set>
+            <if test="user!=null">
+                user_id = #{user.id},
+            </if>
+            <if test="song!=null">
+                song_id = #{song.id},
+            </if>
+            <if test="songList!=null">
+                song_list_id = #{songList.id},
+            </if>
+            <if test="context!=null">
+                content=#{context},
+            </if>
+            <if test="createTime!=null">
+                create_time=#{createTime},
+            </if>
+            <if test="type!=null">
+                type=#{type},
+            </if>
+            <if test="up!=null">
+                up=#{up},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCommit">
+        delete from comment where id = #{id}
+    </delete>
+
+    <resultMap id="BaseResultMap" type="Comment">
+        <id column="id" property="id"/>
+        <result column="content" property="context"/>
+        <result column="create_time" property="createTime"/>
+        <result column="type" property="type"/>
+        <result column="up" property="up"/>
+        <association property="user" javaType="User">
+            <id column="user_id" property="id"/>
+        </association>
+        <association property="song" javaType="Song">
+            <id column="song_id" property="id"/>
+        </association>
+        <association property="songList" javaType="songList">
+            <id column="song_list_id" property="id"/>
+        </association>
+    </resultMap>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+        select * from comment where id = #{id}
+    </select>
+
+    <select id="allComment" resultMap="BaseResultMap">
+        select * from comment
+    </select>
+
+    <select id="commentOfSongId" resultMap="BaseResultMap">
+        select * from comment where song_id = #{songId}
+    </select>
+
+    <select id="commentOfSongListId" resultMap="BaseResultMap">
+        select * from comment where song_list_id = #{songListId}
+    </select>
 </mapper>
