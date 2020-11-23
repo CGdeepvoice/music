@@ -25,6 +25,8 @@ public interface UserMapper {
 
     int updateUserMsg(User user);
 
+    int updateUserAvatar(User user);
+
     int deleteUser(@Param("id") Integer id);
 
     List<User> allUser();

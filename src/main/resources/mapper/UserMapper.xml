@@ -219,6 +219,10 @@
         where id = #{id,jdbcType=INTEGER}
     </update>
 
+    <update id="updateUserAvatar" parameterType="User">
+        update user set avator = #{avatar} where id = #{id}
+    </update>
+
     <delete id="deleteUser" >
         delete from user
         where id = #{id}
