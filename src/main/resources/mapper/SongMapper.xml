@@ -85,6 +85,37 @@
         where id = #{id}
     </update>
 
+    <update id="updateSongMsg" parameterType="Song">
+        update song
+        <set>
+            <if test="name!=null">
+                name=#{name},
+            </if>
+            <if test="introduction!=null">
+                introduction=#{introduction},
+            </if>
+            <if test="pic!=null">
+                pic=#{pic},
+            </if>
+            <if test="lyric!=null">
+                lyric=#{lyric},
+            </if>
+            <if test="url!=null">
+                url=#{url},
+            </if>
+            <if test="createTime!=null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime!=null">
+                update_time = #{updateTime},
+            </if>
+            <if test="singer!=null">
+                singer_id = #{singer.id},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
     <update id="updateSongUrl" parameterType="Song">
         update song set url=#{url} where id = #{id}
     </update>

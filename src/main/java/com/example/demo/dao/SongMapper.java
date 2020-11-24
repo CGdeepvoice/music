@@ -19,6 +19,8 @@ public interface SongMapper {
 
     int updateByPrimaryKey(Song song);
 
+    int updateSongMsg(Song song);
+
     int updateSongUrl(Song song);
 
     int updateSongPic(Song song);

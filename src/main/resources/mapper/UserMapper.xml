@@ -220,7 +220,7 @@
     </update>
 
     <update id="updateUserAvatar" parameterType="User">
-        update user set avator = #{avatar} where id = #{id}
+        update user set avator = #{avator} where id = #{id}
     </update>
 
     <delete id="deleteUser" >
